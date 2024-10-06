@@ -45,7 +45,7 @@ button:hover {
     color: white;
 }
 
-#login-message, #submit-message {
+#login-message {
     color: red;
     margin-top: 10px;
 }
