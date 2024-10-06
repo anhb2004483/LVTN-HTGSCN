@@ -1,4 +1,4 @@
-// Import các hàm cần thiết từ SDK
+// Import các hàm cần thiết từ SDK Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
@@ -19,89 +19,48 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 // Tham chiếu các phần tử trong bảng
-const sn1Refs = {
-    object: document.getElementById('sn1-object-data'),
-    gas: document.getElementById('sn1-gas-data'),
-    gasThreshold: document.getElementById('sn1-gas-threshold-data'),
-    tempThreshold: document.getElementById('sn1-temp-threshold-data'),
-    khancap: document.getElementById('sn1-khancap-data')
-};
-
-// Hàm để đọc và hiển thị dữ liệu cho SN1
-const fetchDataForSN1 = () => {
-    onValue(ref(database, `SN1/object`), (snapshot) => {
-        sn1Refs.object.textContent = snapshot.val() || 'N/A';
-    });
-    onValue(ref(database, `SN1/gas`), (snapshot) => {
-        sn1Refs.gas.textContent = snapshot.val() || 'N/A';
-    });
-    onValue(ref(database, `SN1/Gas_threshold`), (snapshot) => {
-        sn1Refs.gasThreshold.textContent = snapshot.val() || 'N/A';
-    });
-    onValue(ref(database, `SN1/Temp_threshold`), (snapshot) => {
-        sn1Refs.tempThreshold.textContent = snapshot.val() || 'N/A';
-    });
-    onValue(ref(database, `SN1/khancap`), (snapshot) => {
-        sn1Refs.khancap.textContent = snapshot.val() || 'N/A';
-    });
-};
-
-// Gọi hàm để lấy dữ liệu cho SN1
-fetchDataForSN1();
-
-// Đăng nhập
-const loginButton = document.getElementById('login-button');
-const loginMessage = document.getElementById('login-message');
-
-loginButton.addEventListener('click', () => {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    // Tham chiếu đến tên người dùng và mật khẩu trong Firebase
-    const userRef = ref(database, 'user');
-
-    onValue(userRef, (snapshot) => {
-        const userData = snapshot.val();
-
-        if (userData) {
-            const dbUsername = userData.name;
-            const dbPassword = userData.password;
-
-            if (username === dbUsername && password === dbPassword) {
-                loginMessage.textContent = 'Đăng nhập thành công!';
-                document.getElementById('login-container').style.display = 'none'; // Ẩn phần đăng nhập
-                document.getElementById('data-table').style.display = 'table'; // Hiện bảng dữ liệu
-            } else {
-                loginMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng!';
-            }
-        } else {
-            loginMessage.textContent = 'Không tìm thấy dữ liệu người dùng!';
-        }
-    }, (error) => {
-        console.error("Lỗi khi đọc dữ liệu người dùng:", error);
-        loginMessage.textContent = 'Đã xảy ra lỗi khi lấy dữ liệu người dùng: ' + error.message;
-    });
-});
-
-// Gửi giá trị b lên Firebase
-const submitButton = document.getElementById('submit-b');
-const submitMessage = document.getElementById('submit-message');
-
-submitButton.addEventListener('click', () => {
-    const bValue = document.getElementById('b-value').value;
-
-    if (bValue !== '') {
-        set(ref(database, 'SN1/b'), bValue)
-            .then(() => {
-                submitMessage.textContent = 'Đã gửi thành công giá trị b!';
-                submitMessage.style.color = 'green';
-            })
-            .catch((error) => {
-                submitMessage.textContent = 'Lỗi khi gửi giá trị b: ' + error.message;
-                submitMessage.style.color = 'red';
-            });
-    } else {
-        submitMessage.textContent = 'Vui lòng nhập giá trị b!';
-        submitMessage.style.color = 'red';
+const snRefs = {
+    SN1: {
+        object: document.getElementById('sn1-object-data'),
+        gas: document.getElementById('sn1-gas-data'),
+        gasThreshold: document.getElementById('sn1-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn1-temp-threshold-data'),
+        khancap: document.getElementById('sn1-khancap-data'),
+        bInput: document.getElementById('sn1-b-input'),
+        submitButton: document.getElementById('sn1-submit-b')
+    },
+    SN2: {
+        object: document.getElementById('sn2-object-data'),
+        gas: document.getElementById('sn2-gas-data'),
+        gasThreshold: document.getElementById('sn2-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn2-temp-threshold-data'),
+        khancap: document.getElementById('sn2-khancap-data'),
+        bInput: document.getElementById('sn2-b-input'),
+        submitButton: document.getElementById('sn2-submit-b')
+    },
+    SN3: {
+        object: document.getElementById('sn3-object-data'),
+        gas: document.getElementById('sn3-gas-data'),
+        gasThreshold: document.getElementById('sn3-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn3-temp-threshold-data'),
+        khancap: document.getElementById('sn3-khancap-data'),
+        bInput: document.getElementById('sn3-b-input'),
+        submitButton: document.getElementById('sn3-submit-b')
+    },
+    SN4: {
+        object: document.getElementById('sn4-object-data'),
+        gas: document.getElementById('sn4-gas-data'),
+        gasThreshold: document.getElementById('sn4-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn4-temp-threshold-data'),
+        khancap: document.getElementById('sn4-khancap-data'),
+        bInput: document.getElementById('sn4-b-input'),
+        submitButton: document.getElementById('sn4-submit-b')
     }
-});
+};
+
+// Hàm để đọc và hiển thị dữ liệu từ Firebase
+const fetchDataForSensor = (sensorRef, refs) => {
+    onValue(ref(database, `${sensorRef}/object`), (snapshot) => {
+        refs.object.textContent = snapshot.val() || 'N/A';
+    });
+    onValue(ref(database,
