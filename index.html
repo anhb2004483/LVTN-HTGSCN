@@ -11,7 +11,44 @@
     <script type="module" src="script.js"></script>
 </head>
 <body>
+    <h1>Đăng Nhập</h1>
+    <div id="login-container">
+        <input type="text" id="username" placeholder="Tên người dùng" required>
+        <input type="password" id="password" placeholder="Mật khẩu" required>
+        <button id="login-button">Đăng Nhập</button>
+        <div id="login-message"></div>
+    </div>
+
     <h1>Dữ Liệu từ Firebase</h1>
-    <div id="data-container">Loading...</div>
+    <table id="data-table" style="display: none;">
+        <thead>
+            <tr>
+                <th>Sensor</th>
+                <th>Object</th>
+                <th>Gas</th>
+                <th>Gas Threshold</th>
+                <th>Temp Threshold</th>
+                <th>Khẩn Cấp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- SN1 Row -->
+            <tr>
+                <td>SN1</td>
+                <td id="sn1-object-data">12</td>
+                <td id="sn1-gas-data">12</td>
+                <td id="sn1-gas-threshold-data">22</td>
+                <td id="sn1-temp-threshold-data">Loading...</td>
+                <td id="sn1-khancap-data">true</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Phần nhập và gửi biến b -->
+    <h2>Nhập và gửi giá trị biến b:</h2>
+    <input type="text" id="b-value" placeholder="Nhập giá trị b">
+    <button id="submit-b">Gửi Lên Firebase</button>
+
+    <div id="submit-message"></div>
 </body>
 </html>
