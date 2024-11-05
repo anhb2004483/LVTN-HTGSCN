@@ -71,6 +71,21 @@ const fetchDataForSensor = (sensorKey, refs) => {
   onValue(ref(database, `${sensorKey}/khancap`), (snapshot) => {
     refs.khancap.textContent = snapshot.val() || 'N/A';
   });
+    onValue(ref(database, `${sensor}/khancap`), (snapshot) => {
+        if (snapshot.exists()) {
+            const khancapValue = snapshot.val();
+            // Kiểm tra giá trị khẩn cấp và cập nhật nội dung
+            if (khancapValue === -1) {
+                refs.khancap.textContent = 'OFF';
+            } else if (khancapValue === -2) {
+                refs.khancap.textContent = 'ON';
+            } else {
+                refs.khancap.textContent = khancapValue;
+            }
+        } else {
+            refs.khancap.textContent = 'N/A';
+        }
+    });
 };
 
 // Gọi hàm lấy dữ liệu cho từng sensor
