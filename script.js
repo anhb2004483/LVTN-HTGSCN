@@ -4,14 +4,14 @@ import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.
 
 // Cấu hình Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyDXPAZ7Wejg29HJWlGk4HVYCSb-tQC_uOs",
-    authDomain: "espp-d81e2.firebaseapp.com",
-    databaseURL: "https://espp-d81e2-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "espp-d81e2",
-    storageBucket: "espp-d81e2.appspot.com",
-    messagingSenderId: "1031596671832",
-    appId: "1:1031596671832:web:827366acdcf47222ae1b2d",
-    measurementId: "G-L7ZYC7TE7W"
+  apiKey: "AIzaSyB2bRIDe_WmC4PrqNw0Pc3NmpB8RN49GlA",
+  authDomain: "lvtn-1daf8.firebaseapp.com",
+  databaseURL: "https://lvtn-1daf8-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "lvtn-1daf8",
+  storageBucket: "lvtn-1daf8.firebasestorage.app",
+  messagingSenderId: "714911677725",
+  appId: "1:714911677725:web:077d406bd928413b3475f4",
+  measurementId: "G-4QZ1WRMGW0"
 };
 
 // Khởi tạo Firebase
