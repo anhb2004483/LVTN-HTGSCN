@@ -54,3 +54,20 @@ button {
     background-color: #4CAF50;
     color: white;
 }
+
+#input-container {
+    margin-top: 20px;
+    display: none; /* Ẩn khu vực nhập dữ liệu ban đầu */
+}
+
+#input-message {
+    margin-top: 10px;
+}
+
+#input-message.success {
+    color: green;
+}
+
+#input-message.error {
+    color: red;
+}
