@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản Lý Cảm Biến</title>
+    <title>Đọc Dữ Liệu từ Firebase</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK -->
     <script type="module" src="script.js"></script>
 </head>
 <body>
@@ -63,24 +64,5 @@
             </tr>
         </tbody>
     </table>
-
-    <h1>Nhập Giá Trị cho Sensor</h1>
-    <div id="input-container">
-        <label for="sensor-select">Chọn Sensor:</label>
-        <select id="sensor-select">
-            <option value="SN1">SN1</option>
-            <option value="SN2">SN2</option>
-            <option value="SN3">SN3</option>
-            <option value="SN4">SN4</option>
-        </select>
-        
-        <button id="khancap-toggle">Bật Khẩn Cấp</button>
-        
-        <input type="number" id="gas-threshold-input" placeholder="Gas Threshold" required>
-        <input type="number" id="temp-threshold-input" placeholder="Temp Threshold" required>
-        <button id="send-button">Gửi Giá Trị</button>
-        
-        <div id="input-message"></div>
-    </div>
 </body>
 </html>
