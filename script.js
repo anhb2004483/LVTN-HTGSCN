@@ -69,7 +69,19 @@ const fetchDataForSensor = (sensorKey, refs) => {
     refs.tempThreshold.textContent = snapshot.val() || 'N/A';
   });
   onValue(ref(database, `${sensorKey}/khancap`), (snapshot) => {
-    refs.khancap.textContent = snapshot.val() || 'N/A';
+    if (snapshot.exists()) {
+      const khancapValue = snapshot.val();
+      // Kiểm tra giá trị khẩn cấp và cập nhật nội dung
+      if (khancapValue === -1) {
+        refs.khancap.textContent = 'OFF';
+      } else if (khancapValue === -2) {
+        refs.khancap.textContent = 'ON';
+      } else {
+        refs.khancap.textContent = khancapValue; // Hiển thị giá trị khác
+      }
+    } else {
+      refs.khancap.textContent = 'N/A'; // Nếu không có dữ liệu
+    }
   });
 };
 
