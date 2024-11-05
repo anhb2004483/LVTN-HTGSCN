@@ -19,33 +19,38 @@ input {
 }
 
 button {
-    padding: 10px;
-    background-color: #007bff;
+    padding: 10px 15px;
+    background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #0056b3;
+#login-message {
+    margin-top: 10px;
+}
+
+#login-message.success {
+    color: green;
+}
+
+#login-message.error {
+    color: red;
 }
 
 #data-table {
-    border-collapse: collapse;
     width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
 #data-table th, #data-table td {
     border: 1px solid #ddd;
     padding: 8px;
+    text-align: center;
 }
 
 #data-table th {
-    background-color: #007bff;
+    background-color: #4CAF50;
     color: white;
-}
-
-#login-message {
-    color: red;
-    margin-top: 10px;
 }
