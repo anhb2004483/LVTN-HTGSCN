@@ -1,6 +1,6 @@
 // Import các hàm cần thiết từ SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
 
 // Cấu hình Firebase
@@ -54,8 +54,6 @@ const snRefs = {
 
 // Hàm lấy và hiển thị dữ liệu cho từng sensor
 const fetchDataForSensor = (sensorKey, refs) => {
-  const sensorRef = ref(database, `${sensorKey}`);
-
   onValue(ref(database, `${sensorKey}/object`), (snapshot) => {
     refs.object.textContent = snapshot.val() || 'N/A';
   });
@@ -72,15 +70,9 @@ const fetchDataForSensor = (sensorKey, refs) => {
     if (snapshot.exists()) {
       const khancapValue = snapshot.val();
       // Kiểm tra giá trị khẩn cấp và cập nhật nội dung
-      if (khancapValue === -1) {
-        refs.khancap.textContent = 'OFF';
-      } else if (khancapValue === -2) {
-        refs.khancap.textContent = 'ON';
-      } else {
-        refs.khancap.textContent = khancapValue; // Hiển thị giá trị khác
-      }
+      refs.khancap.textContent = (khancapValue === -1) ? 'OFF' : (khancapValue === -2) ? 'ON' : khancapValue;
     } else {
-      refs.khancap.textContent = 'N/A'; // Nếu không có dữ liệu
+      refs.khancap.textContent = 'N/A';
     }
   });
 };
@@ -110,6 +102,7 @@ loginButton.addEventListener('click', () => {
         loginMessage.classList.add('success');
         document.getElementById('login-container').style.display = 'none';
         document.getElementById('data-table').style.display = 'table';
+        document.getElementById('input-container').style.display = 'block'; // Hiện khu vực nhập dữ liệu
       } else {
         loginMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng!';
         loginMessage.classList.add('error');
@@ -122,5 +115,51 @@ loginButton.addEventListener('click', () => {
     console.error("Lỗi khi đọc dữ liệu người dùng:", error);
     loginMessage.textContent = 'Đã xảy ra lỗi khi lấy dữ liệu người dùng: ' + error.message;
     loginMessage.classList.add('error');
+  });
+});
+
+// Nhập dữ liệu cho sensor
+const sendButton = document.getElementById('send-button');
+const inputMessage = document.getElementById('input-message');
+
+sendButton.addEventListener('click', () => {
+  const selectedSensor = document.getElementById('sensor-select').value;
+  const gasThreshold = document.getElementById('gas-threshold-input').value;
+  const tempThreshold = document.getElementById('temp-threshold-input').value;
+
+  const sensorRef = ref(database, selectedSensor);
+
+  // Gửi dữ liệu vào Firebase
+  set(sensorRef, {
+    Gas_threshold: gasThreshold,
+    Temp_threshold: tempThreshold
+  }).then(() => {
+    inputMessage.textContent = 'Gửi dữ liệu thành công!';
+    inputMessage.classList.add('success');
+  }).catch((error) => {
+    inputMessage.textContent = 'Đã xảy ra lỗi: ' + error.message;
+    inputMessage.classList.add('error');
+  });
+});
+
+// Bật khẩn cấp
+const khancapToggleButton = document.getElementById('khancap-toggle');
+
+khancapToggleButton.addEventListener('click', () => {
+  const selectedSensor = document.getElementById('sensor-select').value;
+  const sensorRef = ref(database, `${selectedSensor}/khancap`);
+
+  // Chuyển đổi giá trị khẩn cấp
+  onValue(sensorRef, (snapshot) => {
+    const currentValue = snapshot.val();
+    const newValue = currentValue === -1 ? -2 : -1; // Chuyển đổi giữa OFF và ON
+
+    set(sensorRef, newValue).then(() => {
+      inputMessage.textContent = `Đã chuyển đổi khẩn cấp ${newValue === -2 ? 'ON' : 'OFF'} cho ${selectedSensor}`;
+      inputMessage.classList.add('success');
+    }).catch((error) => {
+      inputMessage.textContent = 'Đã xảy ra lỗi: ' + error.message;
+      inputMessage.classList.add('error');
+    });
   });
 });
