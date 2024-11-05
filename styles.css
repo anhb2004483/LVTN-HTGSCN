@@ -15,7 +15,7 @@ input {
     display: block;
     margin: 10px 0;
     padding: 8px;
-    width: 200px;
+    width: 200px; /* Chiều rộng cho ô nhập liệu trong phần đăng nhập */
 }
 
 button {
@@ -53,4 +53,19 @@ button {
 #data-table th {
     background-color: #4CAF50;
     color: white;
+}
+
+#input-container {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+}
+
+select, input, button {
+    padding: 8px;
+    margin: 0; /* Loại bỏ margin để các phần tử căn đều */
+}
+
+input {
+    width: 150px; /* Chiều rộng cố định cho các ô nhập liệu */
 }

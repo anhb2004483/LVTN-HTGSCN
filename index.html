@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đọc Dữ Liệu từ Firebase</title>
+    <title>Đọc và Gửi Dữ Liệu từ Firebase</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Firebase SDK -->
     <script type="module" src="script.js"></script>
 </head>
 <body>
@@ -17,52 +16,90 @@
         <div id="login-message"></div>
     </div>
 
-    <h1>Dữ Liệu từ Firebase</h1>
-    <table id="data-table" style="display: none;">
-        <thead>
-            <tr>
-                <th>Sensor</th>
-                <th>Object</th>
-                <th>Gas</th>
-                <th>Gas Threshold</th>
-                <th>Temp Threshold</th>
-                <th>Khẩn Cấp</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>SN1</td>
-                <td id="sn1-object-data">Loading...</td>
-                <td id="sn1-gas-data">Loading...</td>
-                <td id="sn1-gas-threshold-data">Loading...</td>
-                <td id="sn1-temp-threshold-data">Loading...</td>
-                <td id="sn1-khancap-data">Loading...</td>
-            </tr>
-            <tr>
-                <td>SN2</td>
-                <td id="sn2-object-data">Loading...</td>
-                <td id="sn2-gas-data">Loading...</td>
-                <td id="sn2-gas-threshold-data">Loading...</td>
-                <td id="sn2-temp-threshold-data">Loading...</td>
-                <td id="sn2-khancap-data">Loading...</td>
-            </tr>
-            <tr>
-                <td>SN3</td>
-                <td id="sn3-object-data">Loading...</td>
-                <td id="sn3-gas-data">Loading...</td>
-                <td id="sn3-gas-threshold-data">Loading...</td>
-                <td id="sn3-temp-threshold-data">Loading...</td>
-                <td id="sn3-khancap-data">Loading...</td>
-            </tr>
-            <tr>
-                <td>SN4</td>
-                <td id="sn4-object-data">Loading...</td>
-                <td id="sn4-gas-data">Loading...</td>
-                <td id="sn4-gas-threshold-data">Loading...</td>
-                <td id="sn4-temp-threshold-data">Loading...</td>
-                <td id="sn4-khancap-data">Loading...</td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="data-container" style="display: none;">
+        <h1>Dữ Liệu từ Firebase</h1>
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Sensor</th>
+                    <th>Object</th>
+                    <th>Gas</th>
+                    <th>Gas Threshold</th>
+                    <th>Temp Threshold</th>
+                    <th>Khẩn Cấp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>SN1</td>
+                    <td id="sn1-object-data">Loading...</td>
+                    <td id="sn1-gas-data">Loading...</td>
+                    <td id="sn1-gas-threshold-data">Loading...</td>
+                    <td id="sn1-temp-threshold-data">Loading...</td>
+                    <td id="sn1-khancap-data">Loading...</td>
+                </tr>
+                <tr>
+                    <td>SN2</td>
+                    <td id="sn2-object-data">Loading...</td>
+                    <td id="sn2-gas-data">Loading...</td>
+                    <td id="sn2-gas-threshold-data">Loading...</td>
+                    <td id="sn2-temp-threshold-data">Loading...</td>
+                    <td id="sn2-khancap-data">Loading...</td>
+                </tr>
+                <tr>
+                    <td>SN3</td>
+                    <td id="sn3-object-data">Loading...</td>
+                    <td id="sn3-gas-data">Loading...</td>
+                    <td id="sn3-gas-threshold-data">Loading...</td>
+                    <td id="sn3-temp-threshold-data">Loading...</td>
+                    <td id="sn3-khancap-data">Loading...</td>
+                </tr>
+                <tr>
+                    <td>SN4</td>
+                    <td id="sn4-object-data">Loading...</td>
+                    <td id="sn4-gas-data">Loading...</td>
+                    <td id="sn4-gas-threshold-data">Loading...</td>
+                    <td id="sn4-temp-threshold-data">Loading...</td>
+                    <td id="sn4-khancap-data">Loading...</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Nhập Giá Trị cho Sensor</h1>
+        <div id="input-container">
+            <label for="sensor-select">Chọn Sensor:</label>
+            <select id="sensor-select">
+                <option value="SN1">SN1</option>
+                <option value="SN2">SN2</option>
+                <option value="SN3">SN3</option>
+                <option value="SN4">SN4</option>
+            </select>
+            
+            <button id="khancap-toggle">Bật Khẩn Cấp</button>
+            
+            <input type="number" id="gas-threshold-input" placeholder="Gas Threshold" required>
+            <input type="number" id="temp-threshold-input" placeholder="Temp Threshold" required>
+            <button id="send-button">Gửi Giá Trị</button>
+            
+            <div id="input-message"></div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('login-button').addEventListener('click', function() {
+            // Logic để xác thực thông tin đăng nhập
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Giả sử thông tin đăng nhập luôn đúng cho ví dụ này
+            if (username && password) {
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('data-container').style.display = 'block';
+                // Gọi hàm để tải dữ liệu từ Firebase (nếu cần)
+            } else {
+                document.getElementById('login-message').innerText = 'Tên người dùng hoặc mật khẩu không đúng.';
+            }
+        });
+    </script>
 </body>
 </html>
