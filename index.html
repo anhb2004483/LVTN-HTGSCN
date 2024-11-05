@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đọc Dữ Liệu từ Firebase</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"></script>
+    <script type="module" src="script.js"></script>
+</head>
+<body>
+    <h1>Đăng Nhập</h1>
+    <div id="login-container">
+        <input type="text" id="username" placeholder="Tên người dùng" required>
+        <input type="password" id="password" placeholder="Mật khẩu" required>
+        <button id="login-button">Đăng Nhập</button>
+        <div id="login-message"></div>
+    </div>
+
+    <h1>Dữ Liệu từ Firebase</h1>
+    <table id="data-table" style="display: none;">
+        <thead>
+            <tr>
+                <th>Sensor</th>
+                <th>Object</th>
+                <th>Gas</th>
+                <th>Gas Threshold</th>
+                <th>Temp Threshold</th>
+                <th>Khẩn Cấp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- SN1 Row -->
+            <tr>
+                <td>SN1</td>
+                <td id="sn1-object-data">12</td>
+                <td id="sn1-gas-data">12</td>
+                <td id="sn1-gas-threshold-data">22</td>
+                <td id="sn1-temp-threshold-data">Loading...</td>
+                <td id="sn1-khancap-data">true</td>
+            </tr>
+            <!-- SN2 Row -->
+            <tr>
+                <td>SN2</td>
+                <td id="sn2-object-data">22</td>
+                <td id="sn2-gas-data">11</td>
+                <td id="sn2-gas-threshold-data">2222</td>
+                <td id="sn2-temp-threshold-data">Loading...</td>
+                <td id="sn2-khancap-data">true</td>
+            </tr>
+            <!-- SN3 Row -->
+            <tr>
+                <td>SN3</td>
+                <td id="sn3-object-data">33</td>
+                <td id="sn3-gas-data">11</td>
+                <td id="sn3-gas-threshold-data">11</td>
+                <td id="sn3-temp-threshold-data">Loading...</td>
+                <td id="sn3-khancap-data">ture</td>
+            </tr>
+            <!-- SN4 Row -->
+            <tr>
+                <td>SN4</td>
+                <td id="sn4-object-data">22</td>
+                <td id="sn4-gas-data">234</td>
+                <td id="sn4-gas-threshold-data">234</td>
+                <td id="sn4-temp-threshold-data">Loading...</td>
+                <td id="sn4-khancap-data">true</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
