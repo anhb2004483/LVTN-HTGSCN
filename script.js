@@ -84,48 +84,34 @@ const loginButton = document.getElementById('login-button');
 const loginMessage = document.getElementById('login-message');
 
 loginButton.addEventListener('click', () => {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-  if (!username || !password) {
-    loginMessage.textContent = 'Vui lòng nhập tên người dùng và mật khẩu!';
-    loginMessage.classList.add('error');
-    return;
-  }
+    // Tham chiếu đến tên người dùng và mật khẩu trong Firebase
+    const userRef = ref(database, 'user');
 
-  const userRef = ref(database, 'user');
+    onValue(userRef, (snapshot) => {
+        const userData = snapshot.val();
 
-  onValue(userRef, (snapshot) => {
-    const userData = snapshot.val();
+        if (userData) {
+            const dbUsername = userData.name;
+            const dbPassword = userData.password;
 
-    if (userData) {
-      const dbUsername = userData.name;
-      const dbPassword = userData.password;
-
-      if (username === dbUsername && password === dbPassword) {
-        loginMessage.textContent = 'Đăng nhập thành công!';
-        loginMessage.classList.add('success');
-        loginMessage.classList.remove('error');
-        document.getElementById('login-container').style.display = 'none';
-        document.getElementById('data-container').style.display = 'block'; // Hiện bảng dữ liệu
-      } else {
-        loginMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng!';
-        loginMessage.classList.add('error');
-        loginMessage.classList.remove('success');
-      }
-    } else {
-      loginMessage.textContent = 'Không tìm thấy dữ liệu người dùng!';
-      loginMessage.classList.add('error');
-      loginMessage.classList.remove('success');
-    }
-  }, (error) => {
-    console.error("Lỗi khi đọc dữ liệu người dùng:", error);
-    loginMessage.textContent = 'Đã xảy ra lỗi khi lấy dữ liệu người dùng: ' + error.message;
-    loginMessage.classList.add('error');
-    loginMessage.classList.remove('success');
-  });
+            if (username === dbUsername && password === dbPassword) {
+                loginMessage.textContent = 'Đăng nhập thành công!';
+                document.getElementById('login-container').style.display = 'none'; // Ẩn phần đăng nhập
+                document.getElementById('data-table').style.display = 'table'; // Hiện bảng dữ liệu
+            } else {
+                loginMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng!';
+            }
+        } else {
+            loginMessage.textContent = 'Không tìm thấy dữ liệu người dùng!';
+        }
+    }, (error) => {
+        console.error("Lỗi khi đọc dữ liệu người dùng:", error);
+        loginMessage.textContent = 'Đã xảy ra lỗi khi lấy dữ liệu người dùng: ' + error.message;
+    });
 });
-
 // Biến để theo dõi trạng thái khẩn cấp
 let khancapState = -1; // -1 là OFF, -2 là ON
 
