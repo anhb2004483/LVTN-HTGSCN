@@ -136,4 +136,63 @@ const sensorSelect = document.getElementById('sensor-select');
 // Hàm gửi trạng thái khẩn cấp lên Firebase
 const sendKhancapStatus = () => {
   const selectedSensor = sensorSelect.value;
-  const khancapRef
+  const khancapRef = ref(database, `${selectedSensor}/khancap`);
+  
+  set(khancapRef, khancapState)
+    .then(() => {
+      console.log(`Trạng thái khẩn cấp đã được gửi cho ${selectedSensor}: ${khancapState}`);
+    })
+    .catch((error) => {
+      console.error("Lỗi khi gửi trạng thái khẩn cấp:", error);
+    });
+};
+
+// Gửi giá trị khi nhấn nút bật/tắt
+khancapToggle.addEventListener('click', () => {
+  khancapState = (khancapState === -1) ? -2 : -1; // Chuyển đổi trạng thái
+  khancapToggle.textContent = (khancapState === -2) ? 'Nhấn để Tắt Khẩn Cấp' : 'Nhấn để Bật Khẩn Cấp'; // Cập nhật văn bản nút
+  sendKhancapStatus(); // Gửi trạng thái khẩn cấp lên Firebase
+});
+
+// Gửi giá trị vào Firebase
+const sendButton = document.getElementById('send-button');
+const inputMessage = document.getElementById('input-message');
+
+sendButton.addEventListener('click', () => {
+  const selectedSensor = sensorSelect.value; // Lấy giá trị sensor đã chọn
+  const gasThresholdValue = Number(document.getElementById('gas-threshold-input').value);
+  const tempThresholdValue = Number(document.getElementById('temp-threshold-input').value);
+
+  // Kiểm tra xem các giá trị có phải là số không
+  if (isNaN(gasThresholdValue) || isNaN(tempThresholdValue)) {
+    inputMessage.textContent = 'Vui lòng nhập các giá trị số hợp lệ!';
+    inputMessage.classList.add('error');
+    inputMessage.classList.remove('success'); // Bỏ lớp thành công nếu có
+    return; // Dừng thực hiện nếu không phải số
+  }
+
+  // Cập nhật giá trị vào Firebase
+  const gasThresholdRef = ref(database, `${selectedSensor}/Gas_threshold`);
+  const tempThresholdRef = ref(database, `${selectedSensor}/Temp_threshold`);
+
+  // Gửi từng giá trị lên Firebase
+  Promise.all([
+    set(gasThresholdRef, gasThresholdValue),
+    set(tempThresholdRef, tempThresholdValue)
+  ])
+  .then(() => {
+    inputMessage.textContent = 'Giá trị đã được gửi thành công!';
+    inputMessage.classList.add('success');
+    inputMessage.classList.remove('error'); // Bỏ lớp lỗi nếu có
+
+    // Xóa các trường input
+    document.getElementById('gas-threshold-input').value = '';
+    document.getElementById('temp-threshold-input').value = '';
+  })
+  .catch((error) => {
+    console.error("Lỗi khi gửi giá trị:", error);
+    inputMessage.textContent = 'Đã xảy ra lỗi khi gửi giá trị: ' + error.message;
+    inputMessage.classList.add('error');
+    inputMessage.classList.remove('success');
+  });
+});
