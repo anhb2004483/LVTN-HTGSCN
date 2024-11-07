@@ -16,15 +16,17 @@ h1 {
     color: #444;
 }
 
+/* Đặt bảng trong container và căn giữa */
 table {
-    width: 100%;
-    max-width: 600px;
-    border-collapse: collapse;
-    margin: 20px 0;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    width: 100%;                           /* Đặt chiều rộng bảng chiếm 100% vùng chứa */
+    max-width: 600px;                      /* Chiều rộng tối đa của bảng là 600px */
+    border-collapse: collapse;             /* Loại bỏ khoảng cách giữa các ô trong bảng */
+    margin: 20px auto;                     /* Dùng auto để căn giữa bảng theo chiều ngang */
+    background-color: #fff;                /* Nền bảng là màu trắng */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Hiệu ứng đổ bóng nhẹ cho bảng */
+    border-radius: 8px;                    /* Bo tròn góc bảng */
 }
+
 
 th, td {
     padding: 12px;
