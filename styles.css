@@ -114,9 +114,33 @@ td {
     box-sizing: border-box;
 }
 
+#threshold-container {
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+    align-items: center;
+    margin-top: 10px;
+}
+
+#threshold-container select,
+#threshold-container input {
+    flex: 1;
+    padding: 10px;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
 /* Định dạng nút khẩn cấp */
 #khancap-toggle {
+    padding: 10px;
     background-color: #FF5722;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    flex: 1;
+    white-space: nowrap; /* Để nút không bị xuống dòng */
 }
 
 #khancap-toggle.on {
