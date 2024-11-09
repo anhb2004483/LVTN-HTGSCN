@@ -46,7 +46,7 @@ td {
 /* Định dạng phần đăng nhập */
 #login-container, #data-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     padding: 20px;
     border: 1px solid #ddd;
     background-color: #fff;
