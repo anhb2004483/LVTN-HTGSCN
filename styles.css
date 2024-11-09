@@ -15,6 +15,19 @@ body {
 h1 {
     color: #444;
 }
+.center-title {
+    font-size: 28px; /* Kích thước chữ lớn hơn */
+    text-align: center;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.center-subtitle {
+    font-size: 24px; /* Kích thước chữ lớn hơn */
+    text-align: center;
+    font-weight: normal;
+    margin: 10px 0;
+}
 
 table {
     width: 100%;
