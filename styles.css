@@ -17,16 +17,14 @@ h1 {
 }
 
 table {
-    width: 100%;                           /* Đặt chiều rộng bảng chiếm 100% vùng chứa */
-    max-width: 600px;                      /* Chiều rộng tối đa của bảng là 600px */
-    border-collapse: collapse;             /* Loại bỏ khoảng cách giữa các ô trong bảng */
-    margin: 20px auto;                     /* Dùng auto để căn giữa bảng theo chiều ngang */
-    background-color: #fff;                /* Nền bảng là màu trắng */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Hiệu ứng đổ bóng nhẹ cho bảng */
-    border-radius: 8px;                    /* Bo tròn góc bảng */
-    /* transform: translateX(-50px);          Dịch bảng sang trái 200px */
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
-
 
 th, td {
     padding: 12px;
@@ -43,7 +41,6 @@ td {
     font-size: 14px;
 }
 
-/* Định dạng phần đăng nhập */
 #login-container, #data-container {
     width: 100%;
     max-width: 600px;
@@ -64,7 +61,7 @@ td {
     box-sizing: border-box;
 }
 
-#login-button, #send-button, #khancap-toggle {
+#login-button, #send-button {
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;
@@ -75,7 +72,7 @@ td {
     margin: 10px 0;
 }
 
-#login-button:hover, #send-button:hover, #khancap-toggle:hover {
+#login-button:hover, #send-button:hover {
     background-color: #45a049;
 }
 
@@ -99,30 +96,17 @@ td {
     margin-top: 20px;
 }
 
-#data-container label {
-    display: inline-block;
-    margin-bottom: 6px;
-    font-weight: bold;
-}
-
-#sensor-select {
-    padding: 10px;
-    margin-top: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
 #threshold-container {
     display: flex;
-    gap: 10px; /* Khoảng cách giữa các phần tử */
+    gap: 10px;
     align-items: center;
     margin-top: 10px;
+    flex-wrap: wrap;
 }
 
 #threshold-container select,
-#threshold-container input {
+#threshold-container input,
+#khancap-toggle {
     flex: 1;
     padding: 10px;
     margin: 0;
@@ -131,16 +115,10 @@ td {
     box-sizing: border-box;
 }
 
-/* Định dạng nút khẩn cấp */
 #khancap-toggle {
-    padding: 10px;
     background-color: #FF5722;
     color: white;
-    border: none;
-    border-radius: 4px;
     cursor: pointer;
-    flex: 1;
-    white-space: nowrap; /* Để nút không bị xuống dòng */
 }
 
 #khancap-toggle.on {
@@ -149,4 +127,15 @@ td {
 
 #khancap-toggle.off {
     background-color: #4CAF50;
+}
+
+#send-button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
