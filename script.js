@@ -122,8 +122,8 @@ loginButton.addEventListener('click', () => {
       if (username === dbUsername && password === dbPassword) {
         loginMessage.textContent = 'Đăng nhập thành công!';
         loginMessage.classList.add('success');
-        document.getElementById('login-container').style.display = 'none';
-        document.getElementById('data-container').style.display = 'block'; // Hiện bảng dữ liệu
+        document.getElementById('login-container').style.display = 'none';  // Ẩn bảng đăng nhập
+        document.getElementById('data-container').style.display = 'block';   // Hiển thị bảng dữ liệu
       } else {
         loginMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng!';
         loginMessage.classList.add('error');
@@ -138,6 +138,7 @@ loginButton.addEventListener('click', () => {
     loginMessage.classList.add('error');
   });
 });
+
 
 // Biến để theo dõi trạng thái khẩn cấp
 let khancapState = -1; // -1 là OFF, -2 là ON
