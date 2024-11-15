@@ -1,3 +1,9 @@
+
+
+Chia sẻ
+
+
+Bạn đã nói:
 // Hàm để cập nhật thời gian hiện tại
 const updateCurrentTime = () => {
     const currentTimeElement = document.getElementById('current-time');
@@ -10,8 +16,8 @@ const updateCurrentTime = () => {
     const seconds = now.getSeconds();
 
     // Định dạng thời gian (DD/MM/YYYY HH:MM:SS)
-    const formattedTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
-    currentTimeElement.textContent = `Thời gian hiện tại: ${formattedTime}`;
+    const formattedTime = ${day}/${month}/${year} ${hours}:${minutes}:${seconds};
+    currentTimeElement.textContent = Thời gian hiện tại: ${formattedTime};
 };
 
 // Cập nhật thời gian mỗi giây
@@ -77,19 +83,19 @@ const snRefs = {
 
 // Hàm lấy và hiển thị dữ liệu cho từng sensor
 const fetchDataForSensor = (sensorKey, refs) => {
-  onValue(ref(database, `${sensorKey}/object`), (snapshot) => {
+  onValue(ref(database, ${sensorKey}/object), (snapshot) => {
     refs.object.textContent = snapshot.val() || 'N/A';
   });
-  onValue(ref(database, `${sensorKey}/gas`), (snapshot) => {
+  onValue(ref(database, ${sensorKey}/gas), (snapshot) => {
     refs.gas.textContent = snapshot.val() || 'N/A';
   });
-  onValue(ref(database, `${sensorKey}/Gas_threshold`), (snapshot) => {
+  onValue(ref(database, ${sensorKey}/Gas_threshold), (snapshot) => {
     refs.gasThreshold.textContent = snapshot.val() || 'N/A';
   });
-  onValue(ref(database, `${sensorKey}/Temp_threshold`), (snapshot) => {
+  onValue(ref(database, ${sensorKey}/Temp_threshold), (snapshot) => {
     refs.tempThreshold.textContent = snapshot.val() || 'N/A';
   });
-  onValue(ref(database, `${sensorKey}/khancap`), (snapshot) => {
+  onValue(ref(database, ${sensorKey}/khancap), (snapshot) => {
     if (snapshot.exists()) {
       const khancapValue = snapshot.val();
       refs.khancap.textContent = (khancapValue === -1) ? 'OFF' : (khancapValue === -2) ? 'ON' : khancapValue;
@@ -122,8 +128,14 @@ loginButton.addEventListener('click', () => {
       if (username === dbUsername && password === dbPassword) {
         loginMessage.textContent = 'Đăng nhập thành công!';
         loginMessage.classList.add('success');
-        document.getElementById('login-container').style.display = 'none';  // Ẩn bảng đăng nhập
-        document.getElementById('data-container').style.display = 'block';   // Hiển thị bảng dữ liệu
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('data-container').style.display = 'block'; // Hiện bảng dữ liệu
+
+        // Ẩn phần tử <h1> Đăng Nhập
+        const loginHeader = document.querySelector('h1');  // Lấy phần tử <h1>
+        if (loginHeader) {
+          loginHeader.style.display = 'none';  // Ẩn nó khi đăng nhập thành công
+        }
       } else {
         loginMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng!';
         loginMessage.classList.add('error');
@@ -150,11 +162,11 @@ const sensorSelect = document.getElementById('sensor-select');
 // Hàm gửi trạng thái khẩn cấp lên Firebase
 const sendKhancapStatus = () => {
     const selectedSensor = sensorSelect.value;
-    const khancapRef = ref(database, `${selectedSensor}/khancap`);
+    const khancapRef = ref(database, ${selectedSensor}/khancap);
     
     set(khancapRef, khancapState)
         .then(() => {
-            console.log(`Trạng thái khẩn cấp đã được gửi cho ${selectedSensor}: ${khancapState}`);
+            console.log(Trạng thái khẩn cấp đã được gửi cho ${selectedSensor}: ${khancapState});
         })
         .catch((error) => {
             console.error("Lỗi khi gửi trạng thái khẩn cấp:", error);
@@ -191,7 +203,7 @@ sendButton.addEventListener('click', () => {
     if (gasThresholdValue !== "") {
         const gasThresholdNumber = Number(gasThresholdValue);
         if (!isNaN(gasThresholdNumber)) {
-            const gasThresholdRef = ref(database, `${selectedSensor}/Gas_threshold`);
+            const gasThresholdRef = ref(database, ${selectedSensor}/Gas_threshold);
             promises.push(set(gasThresholdRef, gasThresholdNumber));
         } else {
             inputMessage.textContent = 'Vui lòng nhập giá trị hợp lệ cho ngưỡng gas!';
@@ -204,7 +216,7 @@ sendButton.addEventListener('click', () => {
     if (tempThresholdValue !== "") {
         const tempThresholdNumber = Number(tempThresholdValue);
         if (!isNaN(tempThresholdNumber)) {
-            const tempThresholdRef = ref(database, `${selectedSensor}/Temp_threshold`);
+            const tempThresholdRef = ref(database, ${selectedSensor}/Temp_threshold);
             promises.push(set(tempThresholdRef, tempThresholdNumber));
         } else {
             inputMessage.textContent = 'Vui lòng nhập giá trị hợp lệ cho ngưỡng nhiệt độ!';
@@ -255,18 +267,18 @@ gmailContainer.addEventListener('click', (event) => {
         }
 
         // Gửi dữ liệu lên Firebase
-        console.log(`Đang gửi Gmail: ${emailValue} cho ${userKey}`); // Log thông tin
+        console.log(Đang gửi Gmail: ${emailValue} cho ${userKey}); // Log thông tin
         sendGmailToFirebase(userKey, emailValue);
     }
 });
 
 // Hàm gửi Gmail lên Firebase
 const sendGmailToFirebase = (userKey, emailValue) => {
-    const userRef = ref(database, `user/${userKey}`);
+    const userRef = ref(database, user/${userKey});
     set(userRef, emailValue)
         .then(() => {
             // Hiển thị thông báo thành công
-            gmailMessage.textContent = `Đã cập nhật Gmail cho ${userKey} thành công!`;
+            gmailMessage.textContent = Đã cập nhật Gmail cho ${userKey} thành công!;
             gmailMessage.classList.add('success');
             gmailMessage.classList.remove('error');
 
@@ -280,8 +292,8 @@ const sendGmailToFirebase = (userKey, emailValue) => {
             }, 2000);
         })
         .catch((error) => {
-            console.error(`Lỗi khi cập nhật Gmail cho ${userKey}:`, error);
-            gmailMessage.textContent = `Lỗi khi cập nhật Gmail: ${error.message}`;
+            console.error(Lỗi khi cập nhật Gmail cho ${userKey}:, error);
+            gmailMessage.textContent = Lỗi khi cập nhật Gmail: ${error.message};
             gmailMessage.classList.add('error');
             gmailMessage.classList.remove('success');
 
