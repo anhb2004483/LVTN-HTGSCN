@@ -1,3 +1,26 @@
+// Hàm để cập nhật thời gian hiện tại
+const updateCurrentTime = () => {
+    const currentTimeElement = document.getElementById('current-time');
+    const now = new Date();
+    const day = now.getDate();
+    const month = now.getMonth() + 1; // Lấy tháng, nhưng cần cộng thêm 1 vì tháng bắt đầu từ 0
+    const year = now.getFullYear();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+
+    // Định dạng thời gian (DD/MM/YYYY HH:MM:SS)
+    const formattedTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    currentTimeElement.textContent = `Thời gian hiện tại: ${formattedTime}`;
+};
+
+// Cập nhật thời gian mỗi giây
+setInterval(updateCurrentTime, 1000);
+
+// Gọi hàm để hiển thị thời gian ngay khi trang được tải
+updateCurrentTime();
+
+
 // Import các hàm cần thiết từ SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
@@ -150,28 +173,54 @@ const inputMessage = document.getElementById('input-message');
 
 sendButton.addEventListener('click', () => {
     const selectedSensor = sensorSelect.value;
-    const gasThresholdValue = Number(document.getElementById('gas-threshold-input').value);
-    const tempThresholdValue = Number(document.getElementById('temp-threshold-input').value);
+    const gasThresholdValue = document.getElementById('gas-threshold-input').value;
+    const tempThresholdValue = document.getElementById('temp-threshold-input').value;
 
-    if (isNaN(gasThresholdValue) || isNaN(tempThresholdValue)) {
-        inputMessage.textContent = 'Vui lòng nhập các giá trị số hợp lệ!';
+    // Kiểm tra xem người dùng có nhập dữ liệu cho ngưỡng gas và nhiệt độ hay không
+    if (gasThresholdValue === "" && tempThresholdValue === "") {
+        inputMessage.textContent = 'Vui lòng nhập ít nhất một giá trị cho ngưỡng gas hoặc ngưỡng nhiệt độ!';
         inputMessage.classList.add('error');
         inputMessage.classList.remove('success');
         return;
     }
 
-    const gasThresholdRef = ref(database, `${selectedSensor}/Gas_threshold`);
-    const tempThresholdRef = ref(database, `${selectedSensor}/Temp_threshold`);
+    // Chỉ gửi khi ít nhất có một giá trị hợp lệ
+    let promises = [];
+    
+    if (gasThresholdValue !== "") {
+        const gasThresholdNumber = Number(gasThresholdValue);
+        if (!isNaN(gasThresholdNumber)) {
+            const gasThresholdRef = ref(database, `${selectedSensor}/Gas_threshold`);
+            promises.push(set(gasThresholdRef, gasThresholdNumber));
+        } else {
+            inputMessage.textContent = 'Vui lòng nhập giá trị hợp lệ cho ngưỡng gas!';
+            inputMessage.classList.add('error');
+            inputMessage.classList.remove('success');
+            return;
+        }
+    }
 
-    Promise.all([
-        set(gasThresholdRef, gasThresholdValue),
-        set(tempThresholdRef, tempThresholdValue)
-    ])
+    if (tempThresholdValue !== "") {
+        const tempThresholdNumber = Number(tempThresholdValue);
+        if (!isNaN(tempThresholdNumber)) {
+            const tempThresholdRef = ref(database, `${selectedSensor}/Temp_threshold`);
+            promises.push(set(tempThresholdRef, tempThresholdNumber));
+        } else {
+            inputMessage.textContent = 'Vui lòng nhập giá trị hợp lệ cho ngưỡng nhiệt độ!';
+            inputMessage.classList.add('error');
+            inputMessage.classList.remove('success');
+            return;
+        }
+    }
+
+    // Gửi các giá trị đã nhập lên Firebase
+    Promise.all(promises)
     .then(() => {
         inputMessage.textContent = 'Giá trị đã được gửi thành công!';
         inputMessage.classList.add('success');
         inputMessage.classList.remove('error');
 
+        // Xóa ô nhập sau khi gửi thành công
         document.getElementById('gas-threshold-input').value = '';
         document.getElementById('temp-threshold-input').value = '';
 
@@ -187,3 +236,58 @@ sendButton.addEventListener('click', () => {
         inputMessage.classList.remove('success');
     });
 });
+
+const gmailContainer = document.getElementById('gmail-container');
+const gmailMessage = document.getElementById('gmail-message');
+
+gmailContainer.addEventListener('click', (event) => {
+    if (event.target.classList.contains('gmail-send-button')) {
+        const userKey = document.getElementById('gmail-select').value;
+        const emailValue = document.getElementById('gmail-input').value;
+
+        // Kiểm tra email hợp lệ
+        if (!emailValue || !emailValue.includes('@')) {
+            gmailMessage.textContent = 'Vui lòng nhập địa chỉ Gmail hợp lệ!';
+            gmailMessage.classList.add('error');
+            gmailMessage.classList.remove('success');
+            return;
+        }
+
+        // Gửi dữ liệu lên Firebase
+        console.log(`Đang gửi Gmail: ${emailValue} cho ${userKey}`); // Log thông tin
+        sendGmailToFirebase(userKey, emailValue);
+    }
+});
+
+// Hàm gửi Gmail lên Firebase
+const sendGmailToFirebase = (userKey, emailValue) => {
+    const userRef = ref(database, `user/${userKey}`);
+    set(userRef, emailValue)
+        .then(() => {
+            // Hiển thị thông báo thành công
+            gmailMessage.textContent = `Đã cập nhật Gmail cho ${userKey} thành công!`;
+            gmailMessage.classList.add('success');
+            gmailMessage.classList.remove('error');
+
+            // Reset ô nhập Gmail
+            document.getElementById('gmail-input').value = '';
+
+            // Ẩn thông báo sau 2 giây
+            setTimeout(() => {
+                gmailMessage.textContent = '';
+                gmailMessage.classList.remove('success');
+            }, 2000);
+        })
+        .catch((error) => {
+            console.error(`Lỗi khi cập nhật Gmail cho ${userKey}:`, error);
+            gmailMessage.textContent = `Lỗi khi cập nhật Gmail: ${error.message}`;
+            gmailMessage.classList.add('error');
+            gmailMessage.classList.remove('success');
+
+            // Ẩn thông báo lỗi sau 2 giây
+            setTimeout(() => {
+                gmailMessage.textContent = '';
+                gmailMessage.classList.remove('error');
+            }, 2000);
+        });
+};

@@ -8,8 +8,9 @@
     <script type="module" src="script.js"></script>
 </head>
 <body>
-<h4 class="center-title">Luận Văn Tốt Nghiệp</h4>
-<h5 class="center-subtitle">Đề tài: Hệ Thống Giám Sát Cháy Nổ</h5>
+    <h4 class="center-title">Luận Văn Tốt Nghiệp</h4>
+    <h5 class="center-subtitle">Đề tài: Hệ Thống Giám Sát Cháy Nổ</h5>
+    <div id="current-time"></div> <!-- Thêm dòng này để hiển thị thời gian -->
     <h1>Đăng Nhập</h1>
     <div id="login-container">
         <input type="text" id="username" placeholder="Tên người dùng" required>
@@ -81,6 +82,23 @@
         </div>
         <button id="send-button">Gửi</button>
         <div id="input-message"></div>
-    </div>
+
+        
+<h2>Cập Nhật Gmail</h2>
+<div id="gmail-container">
+  <div class="gmail-entry">
+    <select id="gmail-select">
+      <option value="user1">User 1</option>
+      <option value="user2">User 2</option>
+      <option value="user3">User 3</option>
+      <option value="user4">User 4</option>
+    </select>
+    <input id="gmail-input" type="email" placeholder="Nhập Gmail" required>
+    <button class="gmail-send-button">Gửi</button>
+  </div>
+  <div id="gmail-message" class="message"></div>
+</div>
+
+
 </body>
 </html>
