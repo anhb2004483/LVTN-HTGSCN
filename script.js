@@ -124,6 +124,7 @@ loginButton.addEventListener('click', () => {
         loginMessage.classList.add('success');
         document.getElementById('login-container').style.display = 'none';
         document.getElementById('data-container').style.display = 'block'; // Hiện bảng dữ liệu
+        document.querySelector('h1').style.display = 'none'; // Ẩn dòng tiêu đề Đăng Nhập
       } else {
         loginMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng!';
         loginMessage.classList.add('error');
