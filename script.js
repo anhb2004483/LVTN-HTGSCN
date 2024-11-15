@@ -1,9 +1,4 @@
 
-
-Chia sẻ
-
-
-Bạn đã nói:
 // Hàm để cập nhật thời gian hiện tại
 const updateCurrentTime = () => {
     const currentTimeElement = document.getElementById('current-time');
